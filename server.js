@@ -9,12 +9,12 @@ const mLab = process.env.MONGOLAB_URI;
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.static(path.join(__dirname, 'public')));
 // // Home page
 app.get('/', (req, res) => {
   console.log('Connected to server');
-
-  res.sendFile(path.join(__dirname, 'public/index.html'));
+  res.send('Working')
+  // res.sendFile(path.join(__dirname, 'public/index.html'));
 }); // end Home page
 
 // URL shortening and DB insert function
@@ -35,7 +35,7 @@ app.get('/new/:url(*)', (req, res) => {
           if (err) throw err;
           console.log('Inserted document into the collection');
         });
-        const showResult = {url: params, short_url: `http://localhost:8080/${shortId}`};
+        const showResult = {url: params, short_url: `https://urlit.herokuapp.com/${shortId}`};
         res.json(showResult);
       } else {
         res.json({error: 'Wrong url format'})
@@ -48,7 +48,7 @@ app.get('/new/:url(*)', (req, res) => {
         if (doc === null) {
           insertDoc(db, () => db.close());
         } else {
-          const showResult = {url: params, short_url: `http://localhost:8080/${doc.short_id}`};
+          const showResult = {url: params, short_url: `https://urlit.herokuapp.com/${doc.short_id}`};
           res.json(showResult);
         }
       });
