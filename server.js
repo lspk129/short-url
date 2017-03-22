@@ -9,18 +9,17 @@ const mLab = process.env.MONGOLAB_URI;
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-// app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
 // // Home page
 app.get('/', (req, res) => {
   console.log('Connected to server');
-  res.send('Working')
-  // res.sendFile(path.join(__dirname, 'public/index.html'));
+  res.sendFile(path.join(__dirname, 'public/index.html'));
 }); // end Home page
 
 // URL shortening and DB insert function
 app.get('/new/:url(*)', (req, res) => {
   mongo.connect(mLab, (err, db) => {
-    if (err) throw err;
+    if (err) console.log('Erro connecting to DB server: ' + err);
     console.log('Connected to server');
 
     const params = req.params.url;
@@ -32,7 +31,7 @@ app.get('/new/:url(*)', (req, res) => {
         const shortId = generator();
         const doc = {url: params, short_id: shortId};
         collection.insert(doc, (err, result) => {
-          if (err) throw err;
+          if (err) console.log('Error inserting document into DB: ' + err);
           console.log('Inserted document into the collection');
         });
         const showResult = {url: params, short_url: `https://urlit.herokuapp.com/${shortId}`};
