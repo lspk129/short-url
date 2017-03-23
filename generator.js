@@ -1,10 +1,8 @@
 module.exports = (i) => {
   const letters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
-  let result = '';
   const getLetter = () => letters[Math.floor(Math.random() * letters.length)];
   // array method (run function n times)
-  [...Array(i)].map(() => result += getLetter());
-  return result;
+  return [...Array(i)].map(() => getLetter()).join('');
 };
 
 /*
