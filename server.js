@@ -35,7 +35,7 @@ app.get('/new/:url(*)', (req, res) => {
       // first check if url is valid
       if (isValid(params)) {
         // if valid: 1) generate id
-        const shortId = generator();
+        const shortId = generator(3);
         const doc = {url: params, short_id: shortId};
         // 2) export to users url and short ID to DB in JSON
         collection.insert(doc, (err, result) => {
